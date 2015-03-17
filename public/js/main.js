@@ -4,10 +4,8 @@ var app = {};
 
 app.init = function() {
 
-	var width = window.innerWidth;
-	var height = window.innerHeight;
-	var currDiv = 0;
-	var isMoving = false;
+	// GLOBALS
+	var width, height, currDiv, isMoving;
 
 	/*------------------ FUNCTIONS ------------------*/	
 
@@ -66,6 +64,7 @@ app.init = function() {
 		console.log('Called printResults.')
 		// console.log(data);
 		$('#results-container').empty();
+		$('#titles-container').empty();
 		$('#loader-container').remove();
 
 		_.each(data, function(item, index, list){
@@ -93,11 +92,11 @@ app.init = function() {
 				});
 			});
 		});
-		callback();
+		callback(data);
 	}
 
 	// A function where we keep all user's interaction listener (buttons, etc)
-	function attachEvents() {
+	function attachEvents(data) {
 		console.log('Called attachEvents.')
 		document.onkeydown = checkKey;
 
@@ -106,7 +105,29 @@ app.init = function() {
 		});
 		$('#up, #down').off().on('click', function(){
 			checkUpDown($(this).attr('id'));
-		});		
+		});
+
+		// var debounce;
+		// $(window).resize(function() {
+		//     clearTimeout(debounce);
+		//     debounce = setTimeout(doneResizing, 500); 
+		// });
+		
+		// function doneResizing(){
+		// 	// console.log(data);
+		// 	initGlobalVars();
+		// 	printResults(data, function(){
+		// 		attachEvents(data);
+		// 		showHideArrows();
+		// 	});
+		// }
+	}
+
+	var initGlobalVars = function(){
+		width = window.innerWidth;
+		height = window.innerHeight;		
+		currDiv = 0;
+		isMoving = false;
 	}
 
 	var showHideArrows = function(){
@@ -236,11 +257,12 @@ app.init = function() {
 	}
 
 	callLoader();
+	initGlobalVars();
 	loadData(function(data){
 		processData(data, function(processedData){
-			printResults(processedData, function(){
-				attachEvents();
-				showHideArrows();	
+			printResults(processedData, function(finalData){
+				attachEvents(finalData);
+				showHideArrows();
 			});
 		});		
 	});	
