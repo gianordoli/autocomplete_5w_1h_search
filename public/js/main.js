@@ -9,50 +9,60 @@ app.init = function() {
 	var currDiv = 0;
 	var isMoving = false;
 
-	callLoader();
-	attachEvents();
-	loadData();
-
 	/*------------------ FUNCTIONS ------------------*/	
 
+	// Show loading
+	function callLoader(){
+		$('#results-container').empty();
+		var loaderContainer = $('<div id="loader-container"></div>')
+		var loader = $('<span class="loader"></span>');
+		$(loaderContainer).append(loader);
+		$('body').append(loaderContainer)
+	}
+
 	// Loading the list of domais/countries and services from the server
-	function loadData(){
+	var loadData = function(callback){
+		console.log('Called loadData.')
         $.post('/start', {}, function(response) {
             // console.log(response);
             if(response.error){
             	throw response.error	
             }else{
-				// console.log(response);
-				// remove HOW
-				var words = _.reject(response, function(value, index, list){
-					return value.word == 'how';
-				});
-
-				// group by word (WHY, HOW,...)
-				words = _.groupBy(words, function(value, index, list){
-					// console.log(value.word);
-					return value.word;
-				});
-
-				// Sort by date
-				_.each(words, function(item, index, list){
-					// console.log(item);
-					_.sortBy(item, function(it, i, list) {
-						return it.date;
-					})
-					item.reverse();
-				});
-
-				// console.log(words);
-				// printResults(words);
-				// console.log(_.toArray(words));
-				printResults(_.toArray(words));
+            	callback(response);
             }
         });		
 	}
 
+	var processData = function(data, callback){
+		console.log('Called process data.')
+		// remove HOW
+		var words = _.reject(data, function(value, index, list){
+			return value.word == 'how';
+		});
+
+		// group by word (WHY, HOW,...)
+		words = _.groupBy(words, function(value, index, list){
+			// console.log(value.word);
+			return value.word;
+		});
+
+		// Sort by date
+		_.each(words, function(item, index, list){
+			// console.log(item);
+			_.sortBy(item, function(it, i, list) {
+				return it.date;
+			})
+			item.reverse();
+		});
+
+		// console.log(words);
+		// printResults(words);
+		// console.log(_.toArray(words));
+		callback(_.toArray(words));
+	}
+
 	// Show search results
-	function printResults(data){
+	function printResults(data, callback){
 		console.log('Called printResults.')
 		// console.log(data);
 		$('#results-container').empty();
@@ -83,11 +93,47 @@ app.init = function() {
 				});
 			});
 		});
+		callback();
 	}
 
 	// A function where we keep all user's interaction listener (buttons, etc)
 	function attachEvents() {
+		console.log('Called attachEvents.')
 		document.onkeydown = checkKey;
+	}
+
+	var checkArrows = function(){
+		console.log('Called checkArrows.')
+		// UP
+		if($('.container').scrollTop() <= 0){
+			$('#up').css('display', 'none');
+		}		
+		// DOWN
+		else if($('.container').scrollTop() >= $('#results-container').height() - height){
+			$('#down').css('display', 'none');
+		}
+		// MIDDLE
+		else{
+			$('#up').css('display', 'inline-block');
+			$('#down').css('display', 'inline-block');
+		}
+
+		// LEFT
+		var currScrollLeft = $('#'+currDiv).scrollLeft();
+		var maxScrollLeft = ($('#'+currDiv).children().length - 1) * width;
+		if(currScrollLeft <= 0){
+			$('#left').css('display', 'none');
+		}
+		// RIGHT
+		else if(currScrollLeft >= maxScrollLeft){
+			$('#right').css('display', 'none');
+		}
+		// CENTER
+		else{
+			$('#left').css('display', 'inline-block');
+			$('#right').css('display', 'inline-block');
+		}
+
 	}
 
 	function checkKey(e) {
@@ -99,7 +145,7 @@ app.init = function() {
 		    if (e.keyCode == '38') {
 				if($('.container').scrollTop() > 0){
 					currDiv --;
-					moveUpDown('up');
+					moveUpDown();
 				}
 			}
 
@@ -107,7 +153,7 @@ app.init = function() {
 		    else if (e.keyCode == '40') {
 				if($('.container').scrollTop() < $('#results-container').height() - height){
 					currDiv ++;
-					moveUpDown('down');
+					moveUpDown();
 				}
 		    }
 
@@ -119,6 +165,7 @@ app.init = function() {
 					scrollLeft: currScrollLeft - width
 				}, 500, function(){
 					isMoving = false;
+					checkArrows();
 				});	       
 		    }
 
@@ -130,18 +177,20 @@ app.init = function() {
 					scrollLeft: currScrollLeft + width
 				}, 500, function(){
 					isMoving = false;
+					checkArrows();
 				});
 		    }
 		}		
 	}	
 
-	var moveUpDown = function(direction){
+	var moveUpDown = function(){
 		// console.log('move');
 		isMoving = true;
         $('.container').animate({
 			scrollTop: height*currDiv
 		}, 500, function(){
 			isMoving = false;
+			checkArrows();
 		});
 	}
 
@@ -155,15 +204,6 @@ app.init = function() {
 		var dateString = newDate.getDate();
 		var yearString = newDate.getFullYear();
 		return monthString + '/' + dateString + '/' + yearString;
-	}	
-
-	// Show loading
-	function callLoader(){
-		$('#results-container').empty();
-		var loaderContainer = $('<div id="loader-container"></div>')
-		var loader = $('<span class="loader"></span>');
-		$(loaderContainer).append(loader);
-		$('body').append(loaderContainer)
 	}
 
 	var replaceSpaces = function(query){
@@ -172,6 +212,16 @@ app.init = function() {
 		}
 		return query;
 	}
+
+	callLoader();
+	loadData(function(data){
+		processData(data, function(processedData){
+			printResults(processedData, function(){
+				attachEvents();
+				checkArrows();	
+			});
+		});		
+	});	
 }
 
 app.init();
