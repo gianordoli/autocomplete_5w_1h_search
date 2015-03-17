@@ -106,6 +106,69 @@ body{
 				transform: translateY(-50%);
 			}
 
+/*----- NAVIGATION -----*/
+
+div.nav-container{
+	position: absolute;
+}
+
+div.nav-container#nav-container-right{
+	right: 20px;
+	height: 100%;
+}
+div.nav-container#nav-container-down{
+	bottom: 20px;
+	width: 100%;
+	text-align: center;		
+}
+div.nav-container#nav-container-left{
+	left: 20px;
+	height: 100%;
+}
+div.nav-container#nav-container-up{
+	top: 20px;
+	width: 100%;
+	text-align: center;	
+}
+
+	div.nav{
+		width: 50px;
+		height: 50px;
+		border: 2px solid black;
+		display: inline-block;
+	}
+
+		div.nav#left,
+		div.nav#right{
+			position: relative;
+			top: 45%;
+			-webkit-transform: translateY(45%);
+			-ms-transform: translateY(45%);
+			transform: translateY(45%);
+		    -webkit-transform: rotate(-45deg); 
+			-ms-transform: rotate(-45deg);
+			transform: rotate(-45deg); 			
+		}
+
+		div.nav#up,
+		div.nav#down{
+		    -webkit-transform: rotate(45deg); 
+			-ms-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+
+		div.nav#right{
+			border-width: 0 2px 2px 0;
+		}
+		div.nav#down{
+			border-width: 0 2px 2px 0;
+		}
+		div.nav#left{
+			border-width: 2px 0 0 2px;
+		}
+		div.nav#up{
+			border-width: 2px 0 0 2px;	
+		}
 
 /*----- LOADER -----*/
 #loader-container{
