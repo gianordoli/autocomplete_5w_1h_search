@@ -33,6 +33,16 @@ app.init = function() {
 
 	}
 
+	// Formats UTC date to MM/DD/YYYY
+	function formatDateMMDDYYY(date){
+		var newDate = new Date(date);
+		var monthString = newDate.getMonth() + 1;
+		if (monthString < 10) monthString = '0' + monthString;
+		var dateString = newDate.getDate();
+		var yearString = newDate.getFullYear();
+		return monthString + '/' + dateString + '/' + yearString;
+	}	
+
 	// Show loading
 	function callLoader(){
 		$('#results-container').empty();
@@ -51,12 +61,12 @@ app.init = function() {
 
 		_.each(data, function(value, key, list){
 			console.log(value);
-			var wordDiv = $('<div class="word-container">'+key+'</div>')
+			var wordDiv = $('<div class="word-container"></div>')
 						   .appendTo('#results-container');
 			
 			_.each(value, function(value, key, list){
 			
-				var predictionsByDayDiv = $('<div class="predictions-container">'+value.date+'</div>')
+				var predictionsByDayDiv = $('<div class="predictions-container">'+formatDateMMDDYYY(value.date)+'</div>')
 										   .appendTo(wordDiv);
 			
 				var predictionsUl = $('<ul></ul>')

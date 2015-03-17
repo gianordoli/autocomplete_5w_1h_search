@@ -1,5 +1,54 @@
 /* your style begins here */
 
+/*---------- GLOBAL ----------*/
+* {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */;
+}
+
+/* www.aestheticallyloyal.com/public/optimize-legibility/ */ 
+h1,h2,h3,h4,h5,h6 {
+	text-rendering: optimizeLegibility;
+	font-weight: normal;
+}
+
+/* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */ 
+body, select, input, textarea {	color: #333 }
+
+/* maxvoltar.com/archive/-webkit-font-smoothing */
+html { -webkit-font-smoothing: antialiased; }
+
+
+/*---------- STYLES ----------*/
+
+body{
+	
+}
+
+#results-container{
+	
+}
+
+.word-container{
+	
+}
+
+.predictions-container{
+	text-align: center;
+	width: 100vw;
+	height: 100vh;
+	display: inline-block;
+}
+
+.predictions-container ul{
+	list-style-type: none;	
+	font-size: 13px;
+	line-height: 18px;
+	margin: 0;
+	padding: 0;	
+}
+
 
 /*----- LOADER -----*/
 #loader-container{
