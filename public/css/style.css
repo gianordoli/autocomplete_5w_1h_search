@@ -31,19 +31,20 @@ body{
 }
 
 #results-container .word-container{
-	
+	width: 1700vw;
+	height: 100vh;
 }
 
-/*#results-container .word-container .word{
+#results-container .word-container .word{
 	position: absolute;
 	width: 100vw;
 	height: 100vh;
 	font-size: 4em;
 	color: red;
 	text-align: center;	
-}*/
+}
 
-.predictions-container{
+#results-container .word-container .predictions-container{
 	text-align: center;
 	width: 100vw;
 	height: 100vh;

@@ -21,9 +21,9 @@ app.init = function() {
 					return value.word;
 				});
 				// console.log(words);
-				printResults(words);
+				// printResults(words);
 				// console.log(_.toArray(words));
-				// printResults(_.toArray(words));
+				printResults(_.toArray(words));
             }
         });		
 	}
@@ -35,18 +35,19 @@ app.init = function() {
 		$('#results-container').empty();
 		$('#loader-container').remove();
 
-		var height = document.body.clientHeight;
+		var height = document.innerHeight;
+		console.log(height);
 
-		_.each(data, function(value, key, list){
+		_.each(data, function(item, index, list){
 			// console.log(value);
 			var wordDiv = $('<div class="word-container"></div>')
 						   .appendTo('#results-container');
 			
-			// var word = $('<div class="word"></div>')
-			// 			// .css('top', )
-			// 			.appendTo(wordDiv);
+			var word = $('<div class="word">'+item[0].word+'</div>')
+						.css('top', index*height)
+						.appendTo(wordDiv);
 
-			_.each(value, function(value, key, list){
+			_.each(item, function(value, key, list){
 			
 				var predictionsByDayDiv = $('<div class="predictions-container">'+formatDateMMDDYYY(value.date)+'</div>')
 										   .appendTo(wordDiv);
