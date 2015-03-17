@@ -100,10 +100,17 @@ app.init = function() {
 	function attachEvents() {
 		console.log('Called attachEvents.')
 		document.onkeydown = checkKey;
+
+		$('#right, #left').off().on('click', function(){
+			moveLeftRight($(this).attr('id'));
+		});
+		$('#up, #down').off().on('click', function(){
+			checkUpDown($(this).attr('id'));
+		});		
 	}
 
-	var checkArrows = function(){
-		console.log('Called checkArrows.')
+	var showHideArrows = function(){
+		console.log('Called showHideArrows.')
 		// UP
 		if($('.container').scrollTop() <= 0){
 			$('#up').css('display', 'none');
@@ -143,55 +150,70 @@ app.init = function() {
 		    e = e || window.event;
 		    // up arrow
 		    if (e.keyCode == '38') {
-				if($('.container').scrollTop() > 0){
-					currDiv --;
-					moveUpDown();
-				}
+				checkUpDown('up');
 			}
 
 		    // down arrow
 		    else if (e.keyCode == '40') {
-				if($('.container').scrollTop() < $('#results-container').height() - height){
-					currDiv ++;
-					moveUpDown();
-				}
+				checkUpDown('down');
 		    }
 
 	        // left arrow
 		    else if (e.keyCode == '37') {
-				isMoving = true;
-				var currScrollLeft = $('#'+currDiv).scrollLeft();
-				$('#'+currDiv).animate({
-					scrollLeft: currScrollLeft - width
-				}, 500, function(){
-					isMoving = false;
-					checkArrows();
-				});	       
+      			checkLeftRight('left');
 		    }
 
 		    // right arrow
 		    else if (e.keyCode == '39') {
-		    	isMoving = true;
-				var currScrollLeft = $('#'+currDiv).scrollLeft();
-				$('#'+currDiv).animate({
-					scrollLeft: currScrollLeft + width
-				}, 500, function(){
-					isMoving = false;
-					checkArrows();
-				});
+		    	checkLeftRight('right');
 		    }
 		}		
 	}	
 
+	var checkUpDown = function(arrow){
+		if(arrow == 'up'){
+			if($('.container').scrollTop() > 0){
+				currDiv --;
+				moveUpDown();
+			}			
+		}else if(arrow == 'down'){
+			if($('.container').scrollTop() < $('#results-container').height() - height){
+				currDiv ++;
+				moveUpDown();
+			}
+		}
+	}
+
 	var moveUpDown = function(){
-		// console.log('move');
 		isMoving = true;
+		// console.log('move');
         $('.container').animate({
 			scrollTop: height*currDiv
 		}, 500, function(){
 			isMoving = false;
-			checkArrows();
-		});
+			showHideArrows();
+		});		
+	}
+
+	var checkLeftRight = function(arrow){	
+		var currScrollLeft = $('#'+currDiv).scrollLeft();
+		var maxScrollLeft = ($('#'+currDiv).children().length - 1) * width;
+		if((arrow == 'left' && currScrollLeft > 0) ||
+		   (arrow == 'right' && currScrollLeft < maxScrollLeft)){
+			moveLeftRight(arrow);
+		}
+	}
+
+	var moveLeftRight = function(arrow){
+		var direction = (arrow == 'left') ? (-1) : (1);
+		isMoving = true;
+		var currScrollLeft = $('#'+currDiv).scrollLeft();
+		$('#'+currDiv).animate({
+			scrollLeft: currScrollLeft + (width * direction)
+		}, 500, function(){
+			isMoving = false;
+			showHideArrows();
+		});	 		
 	}
 
 	/*-------------------- AUXILIAR FUNCTIONS --------------------*/
@@ -218,7 +240,7 @@ app.init = function() {
 		processData(data, function(processedData){
 			printResults(processedData, function(){
 				attachEvents();
-				checkArrows();	
+				showHideArrows();	
 			});
 		});		
 	});	

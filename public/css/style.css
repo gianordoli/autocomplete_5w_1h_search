@@ -79,6 +79,10 @@ body{
 					transform: translateY(-40%);
 				}
 
+					.container #results-container .word-container .predictions-container ul li:first-child{
+						font-size: 0.6em;
+					}
+
 .container#titles{
 	pointer-events: none;
 }
@@ -136,6 +140,7 @@ div.nav-container#nav-container-up{
 		height: 50px;
 		border: 2px solid black;
 		display: inline-block;
+		cursor: pointer;
 	}
 
 		div.nav#left,
