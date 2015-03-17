@@ -22,16 +22,52 @@ app.init = function() {
 				});
 				// console.log(words);
 				printResults(words);
+				// console.log(_.toArray(words));
+				// printResults(_.toArray(words));
             }
         });		
 	}
 
+	// Show search results
+	function printResults(data){
+		console.log('Called printResults.')
+		// console.log(data);
+		$('#results-container').empty();
+		$('#loader-container').remove();
 
+		var height = document.body.clientHeight;
+
+		_.each(data, function(value, key, list){
+			// console.log(value);
+			var wordDiv = $('<div class="word-container"></div>')
+						   .appendTo('#results-container');
+			
+			// var word = $('<div class="word"></div>')
+			// 			// .css('top', )
+			// 			.appendTo(wordDiv);
+
+			_.each(value, function(value, key, list){
+			
+				var predictionsByDayDiv = $('<div class="predictions-container">'+formatDateMMDDYYY(value.date)+'</div>')
+										   .appendTo(wordDiv);
+			
+				var predictionsUl = $('<ul></ul>')
+									 .appendTo(predictionsByDayDiv);
+
+				_.each(value.results, function(value, key, list){
+					var li = $('<li>'+value+'</li>')
+							  .appendTo(predictionsUl);
+				});
+			});
+		});
+	}
 
 	// A function where we keep all user's interaction listener (buttons, etc)
 	function attachEvents() {
 
 	}
+
+	/*-------------------- AUXILIAR FUNCTIONS --------------------*/
 
 	// Formats UTC date to MM/DD/YYYY
 	function formatDateMMDDYYY(date){
@@ -50,34 +86,6 @@ app.init = function() {
 		var loader = $('<span class="loader"></span>');
 		$(loaderContainer).append(loader);
 		$('body').append(loaderContainer)
-	}
-
-	// Show search results
-	function printResults(data){
-		console.log('Called printResults.')
-		// console.log(data);
-		$('#results-container').empty();
-		$('#loader-container').remove();
-
-		_.each(data, function(value, key, list){
-			console.log(value);
-			var wordDiv = $('<div class="word-container"></div>')
-						   .appendTo('#results-container');
-			
-			_.each(value, function(value, key, list){
-			
-				var predictionsByDayDiv = $('<div class="predictions-container">'+formatDateMMDDYYY(value.date)+'</div>')
-										   .appendTo(wordDiv);
-			
-				var predictionsUl = $('<ul></ul>')
-									 .appendTo(predictionsByDayDiv);
-
-				_.each(value.results, function(value, key, list){
-					var li = $('<li>'+value+'</li>')
-							  .appendTo(predictionsUl);
-				});
-			});
-		});
 	}
 
 	// Capitalize first letter of any String
