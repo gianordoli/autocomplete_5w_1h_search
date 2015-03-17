@@ -17,11 +17,15 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */ 
-body, select, input, textarea {	color: #333 }
+body, select, input, textarea {	color: #333 /*color: rgba(0, 0, 0, 0.6)*/ }
 
 /* maxvoltar.com/archive/-webkit-font-smoothing */
 html { -webkit-font-smoothing: antialiased; }
 
+a:link,
+a:visited{ color: #333; }
+a:active,
+a:hover{ color: #3939bf; }
 
 /*---------- STYLES ----------*/
 
@@ -29,32 +33,70 @@ body{
 	
 }
 
-#results-container{
-	
+.container{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
 }
 
-	#results-container .word-container{
-		position: absolute;
-		/*width: 1700vw;*/
-		height: 100vh;
-		z-index: 1;
-		border-bottom: 1px solid #333;
-		/*padding: 10px*/
+	.container #results-container{
+
 	}
 
-		#results-container .word-container .predictions-container{
-			text-align: center;
+		.container #results-container .word-container{
 			width: 100vw;
 			height: 100vh;
-			display: inline-block;
+			border-bottom: 1px solid #333;
+			/*overflow-x: scroll;
+			overflow-y: hidden;*/
+			overflow: hidden;
+			white-space: nowrap;		
 		}
 
-			#results-container .word-container .predictions-container ul{
-				list-style-type: none;	
-				font-size: 2em;
-				line-height: 1.5em;
-				margin: 0;
-				padding: 0;	
+			.container #results-container .word-container .predictions-container{
+				text-align: center;
+				width: 100vw;
+				height: 100vh;
+				display: inline-block;
+				top: 0;
+			}
+
+				.container #results-container .word-container .predictions-container ul{
+					list-style-type: none;	
+					font-size: 1.5em;
+					line-height: 1.5em;
+					margin: 0;
+					padding: 0;	
+
+					position: relative;
+					top: 40%;
+					width: 100%;
+					-webkit-transform: translateY(-40%);
+					-ms-transform: translateY(-40%);
+					transform: translateY(-40%);
+				}
+
+.container#titles{
+	pointer-events: none;
+}
+	
+	.container#titles #titles-container{
+
+	}
+
+		#titles-container .word{
+			width: 100vw;
+			height: 100vh;
+			text-align: center;
+
+		}
+
+			#titles-container .word h1{
+				font-size: 16em;
+				color: rgba(255, 0, 50, 0.7);
 
 				position: relative;
 				top: 50%;
@@ -63,26 +105,6 @@ body{
 				-ms-transform: translateY(-50%);
 				transform: translateY(-50%);
 			}
-
-	#results-container .word{
-		position: absolute;
-		width: 100vw;
-		height: 100vh;
-		text-align: center;
-		z-index: -1;
-	}
-
-		#results-container .word h1{
-			font-size: 16em;
-			color: rgba(255, 0, 50, 0.8);
-
-			position: relative;
-			top: 50%;
-			width: 100%;
-			-webkit-transform: translateY(-50%);
-			-ms-transform: translateY(-50%);
-			transform: translateY(-50%);
-		}
 
 
 /*----- LOADER -----*/

@@ -4,7 +4,13 @@ var app = {};
 
 app.init = function() {
 
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+	var currDiv = 0;
+	var isMoving = false;
+
 	callLoader();
+	attachEvents();
 	loadData();
 
 	/*------------------ FUNCTIONS ------------------*/	
@@ -17,13 +23,24 @@ app.init = function() {
             	throw response.error	
             }else{
 				// console.log(response);
+				// remove HOW
 				var words = _.reject(response, function(value, index, list){
 					return value.word == 'how';
 				});
 
+				// group by word (WHY, HOW,...)
 				words = _.groupBy(words, function(value, index, list){
 					// console.log(value.word);
 					return value.word;
+				});
+
+				// Sort by date
+				_.each(words, function(item, index, list){
+					// console.log(item);
+					_.sortBy(item, function(it, i, list) {
+						return it.date;
+					})
+					item.reverse();
 				});
 
 				// console.log(words);
@@ -40,25 +57,18 @@ app.init = function() {
 		// console.log(data);
 		$('#results-container').empty();
 		$('#loader-container').remove();
-		
-		var width = window.innerWidth;
-		var height = window.innerHeight;
 
 		_.each(data, function(item, index, list){
 			// console.log(item.length);
-			var wordDiv = $('<div class="word-container"></div>')
-						   .appendTo('#results-container')
-						   .css({
-						   	 'top': index*height,
-						   	 'width': (item.length)*width
-						   });
+			var wordDiv = $('<div id="'+index+'" class="word-container"></div>')
+						   .appendTo('#results-container');
 			
 			var word = $('<div class="word"><h1>'+item[0].word+'</h1></div>')
 						.css('top', index*height)
-						.appendTo('#results-container');
+						.appendTo('#titles-container');
 
 			_.each(item, function(item, index, list){
-			
+				// console.log(index);
 				var predictionsByDayDiv = $('<div class="predictions-container"><p>'+formatDateMMDDYYY(item.date)+'</p></div>')
 										   .appendTo(wordDiv);
 			
@@ -66,7 +76,8 @@ app.init = function() {
 									 .appendTo(predictionsByDayDiv);
 
 				_.each(item.results, function(value, key, list){
-					var li = $('<li>'+value+'</li>')
+					var query = 'https://google.com/#q='+replaceSpaces(value);					
+					var li = $('<li><a href="'+query+'">'+value+'</a></li>')
 							  .appendTo(predictionsUl);
 				});
 			});
@@ -75,7 +86,62 @@ app.init = function() {
 
 	// A function where we keep all user's interaction listener (buttons, etc)
 	function attachEvents() {
+		document.onkeydown = checkKey;
+	}
 
+	function checkKey(e) {
+		
+		if(!isMoving){
+
+		    e = e || window.event;
+		    // up arrow
+		    if (e.keyCode == '38') {
+				if($('.container').scrollTop() > 0){
+					currDiv --;
+					moveUpDown('up');
+				}
+			}
+
+		    // down arrow
+		    else if (e.keyCode == '40') {
+				if($('.container').scrollTop() < $('#results-container').height() - height){
+					currDiv ++;
+					moveUpDown('down');
+				}
+		    }
+
+	        // left arrow
+		    else if (e.keyCode == '37') {
+				isMoving = true;
+				var currScrollLeft = $('#'+currDiv).scrollLeft();
+				$('#'+currDiv).animate({
+					scrollLeft: currScrollLeft - width
+				}, 500, function(){
+					isMoving = false;
+				});	       
+		    }
+
+		    // right arrow
+		    else if (e.keyCode == '39') {
+		    	isMoving = true;
+				var currScrollLeft = $('#'+currDiv).scrollLeft();
+				$('#'+currDiv).animate({
+					scrollLeft: currScrollLeft + width
+				}, 500, function(){
+					isMoving = false;
+				});
+		    }
+		}		
+	}	
+
+	var moveUpDown = function(direction){
+		// console.log('move');
+		isMoving = true;
+        $('.container').animate({
+			scrollTop: height*currDiv
+		}, 500, function(){
+			isMoving = false;
+		});
 	}
 
 	/*-------------------- AUXILIAR FUNCTIONS --------------------*/
@@ -99,9 +165,11 @@ app.init = function() {
 		$('body').append(loaderContainer)
 	}
 
-	// Capitalize first letter of any String
-	String.prototype.capitalizeFirstLetter = function() {
-    	return this.charAt(0).toUpperCase() + this.slice(1);
+	var replaceSpaces = function(query){
+		while(query.indexOf(' ') > -1){
+			query = query.replace(' ', '+') 
+		}
+		return query;
 	}
 }
 
