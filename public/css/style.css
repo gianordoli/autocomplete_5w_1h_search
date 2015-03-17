@@ -66,8 +66,10 @@ body{
 
 				.container #results-container .word-container .predictions-container ul{
 					list-style-type: none;	
-					font-size: 1.5em;
-					line-height: 1.5em;
+					/*font-size: 1.5em;
+					line-height: 1.5em;*/
+					font-size: calc(100vh/30);
+					line-height: calc(100vh/20);
 					margin: 0;
 					padding: 0;	
 
@@ -99,7 +101,8 @@ body{
 		}
 
 			#titles-container .word h1{
-				font-size: 16em;
+				/*font-size: 16em;*/
+				font-size: calc(100vw/6);
 				color: rgba(255, 0, 50, 0.7);
 
 				position: relative;
@@ -110,7 +113,14 @@ body{
 				transform: translateY(-50%);
 			}
 
-/*----- NAVIGATION -----*/
+/*------------- RESPONSIVE -------------*/
+@media screen and (max-width: 660px) {
+	#titles-container .word h1{
+		font-size: calc(100vw/4);
+	}
+}
+
+/*--------------- ARROWS ---------------*/
 
 div.nav-container{
 	position: absolute;
@@ -175,7 +185,7 @@ div.nav-container#nav-container-up{
 			border-width: 2px 0 0 2px;	
 		}
 
-/*----- LOADER -----*/
+/*--------------- LOADER ---------------*/
 #loader-container{
 	text-align: center;
 	top: 50%;

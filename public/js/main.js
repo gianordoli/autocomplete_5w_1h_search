@@ -6,6 +6,7 @@ app.init = function() {
 
 	var width = window.innerWidth;
 	var height = window.innerHeight;
+	var finalData;
 	var currDiv = 0;
 	var isMoving = false;
 
@@ -58,6 +59,7 @@ app.init = function() {
 		// console.log(words);
 		// printResults(words);
 		// console.log(_.toArray(words));
+		finalData = _.toArray(words);
 		callback(_.toArray(words));
 	}
 
@@ -65,7 +67,7 @@ app.init = function() {
 	function printResults(data, callback){
 		console.log('Called printResults.')
 		// console.log(data);
-		$('#results-container').empty();
+		$('.container').empty();
 		$('#loader-container').remove();
 
 		_.each(data, function(item, index, list){
@@ -106,7 +108,14 @@ app.init = function() {
 		});
 		$('#up, #down').off().on('click', function(){
 			checkUpDown($(this).attr('id'));
-		});		
+		});	
+
+		// $(window).resize(function(){
+		// 	printResults(finalData, function(){
+		// 		attachEvents();
+		// 		showHideArrows();	
+		// 	});
+		// });
 	}
 
 	var showHideArrows = function(){
