@@ -34,28 +34,32 @@ app.init = function() {
 		// console.log(data);
 		$('#results-container').empty();
 		$('#loader-container').remove();
-
-		var height = document.innerHeight;
-		console.log(height);
+		
+		var width = window.innerWidth;
+		var height = window.innerHeight;
 
 		_.each(data, function(item, index, list){
-			// console.log(value);
+			// console.log(item.length);
 			var wordDiv = $('<div class="word-container"></div>')
-						   .appendTo('#results-container');
+						   .appendTo('#results-container')
+						   .css({
+						   	 'top': index*height,
+						   	 'width': (item.length)*width
+						   });
 			
 			var word = $('<div class="word">'+item[0].word+'</div>')
 						.css('top', index*height)
-						.appendTo(wordDiv);
+						.appendTo('#results-container');
 
-			_.each(item, function(value, key, list){
+			_.each(item, function(item, index, list){
 			
-				var predictionsByDayDiv = $('<div class="predictions-container">'+formatDateMMDDYYY(value.date)+'</div>')
+				var predictionsByDayDiv = $('<div class="predictions-container">'+formatDateMMDDYYY(item.date)+'</div>')
 										   .appendTo(wordDiv);
 			
 				var predictionsUl = $('<ul></ul>')
 									 .appendTo(predictionsByDayDiv);
 
-				_.each(value.results, function(value, key, list){
+				_.each(item.results, function(value, key, list){
 					var li = $('<li>'+value+'</li>')
 							  .appendTo(predictionsUl);
 				});
