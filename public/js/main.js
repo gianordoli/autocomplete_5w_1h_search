@@ -59,7 +59,7 @@ app.init = function() {
 
 			_.each(item, function(item, index, list){
 			
-				var predictionsByDayDiv = $('<div class="predictions-container">'+formatDateMMDDYYY(item.date)+'</div>')
+				var predictionsByDayDiv = $('<div class="predictions-container"><p>'+formatDateMMDDYYY(item.date)+'</p></div>')
 										   .appendTo(wordDiv);
 			
 				var predictionsUl = $('<ul></ul>')

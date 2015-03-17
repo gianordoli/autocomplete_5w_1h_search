@@ -13,3 +13,11 @@ This project is part of the [Autocomplete Archive](https://github.com/gianordoli
 Instead of taking the same all-letters-all-services-all-countries approach though, it focuses on 6 words: who, what, when, where, why, and how. Often referred to as "Five Ws and one H," those are ["questions whose answers are considered basic in information-gathering. They are often mentioned in journalism (cf. news style), research, and police investigations."](http://en.wikipedia.org/wiki/Five_Ws)
 
 This is the search interface for the data. The scraper is [here](https://github.com/gianordoli/5w_1h).
+
+---
+
+## To do
+
+* make fonts relative to screen
+* add buttons and key navigation
+* add script to visualize changes
