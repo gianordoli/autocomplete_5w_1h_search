@@ -17,9 +17,15 @@ app.init = function() {
             	throw response.error	
             }else{
 				// console.log(response);
-				var words = _.groupBy(response, function(value, index, list){
+				var words = _.reject(response, function(value, index, list){
+					return value.word == 'how';
+				});
+
+				words = _.groupBy(words, function(value, index, list){
+					// console.log(value.word);
 					return value.word;
 				});
+
 				// console.log(words);
 				// printResults(words);
 				// console.log(_.toArray(words));
@@ -47,7 +53,7 @@ app.init = function() {
 						   	 'width': (item.length)*width
 						   });
 			
-			var word = $('<div class="word">'+item[0].word+'</div>')
+			var word = $('<div class="word"><h1>'+item[0].word+'</h1></div>')
 						.css('top', index*height)
 						.appendTo('#results-container');
 

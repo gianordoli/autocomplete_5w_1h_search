@@ -10,7 +10,10 @@
 /* www.aestheticallyloyal.com/public/optimize-legibility/ */ 
 h1,h2,h3,h4,h5,h6 {
 	text-rendering: optimizeLegibility;
-	font-weight: normal;
+	/*font-weight: normal;*/
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
 
 /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */ 
@@ -30,35 +33,54 @@ body{
 	
 }
 
-#results-container .word-container{
-	position: absolute;
-	/*width: 1700vw;*/
-	height: 100vh;
-}
+	#results-container .word-container{
+		position: absolute;
+		/*width: 1700vw;*/
+		height: 100vh;
+		z-index: 1;
+	}
 
-.word{
-	position: absolute;
-	width: 100vw;
-	height: 100vh;
-	font-size: 4em;
-	color: red;
-	text-align: center;	
-}
+		#results-container .word-container .predictions-container{
+			text-align: center;
+			width: 100vw;
+			height: 100vh;
+			display: inline-block;
+		}
 
-#results-container .word-container .predictions-container{
-	text-align: center;
-	width: 100vw;
-	height: 100vh;
-	display: inline-block;
-}
+			#results-container .word-container .predictions-container ul{
+				list-style-type: none;	
+				font-size: 2em;
+				line-height: 1.5em;
+				margin: 0;
+				padding: 0;	
 
-#results-container .word-container .predictions-container ul{
-	list-style-type: none;	
-	font-size: 13px;
-	line-height: 18px;
-	margin: 0;
-	padding: 0;	
-}
+				position: relative;
+				top: 50%;
+				width: 100%;
+				-webkit-transform: translateY(-50%);
+				-ms-transform: translateY(-50%);
+				transform: translateY(-50%);
+			}
+
+	#results-container .word{
+		position: absolute;
+		width: 100vw;
+		height: 100vh;
+		text-align: center;
+		z-index: -1;
+	}
+
+		#results-container .word h1{
+			font-size: 16em;
+			color: rgba(255, 0, 50, 0.8);
+
+			position: relative;
+			top: 50%;
+			width: 100%;
+			-webkit-transform: translateY(-50%);
+			-ms-transform: translateY(-50%);
+			transform: translateY(-50%);
+		}
 
 
 /*----- LOADER -----*/
