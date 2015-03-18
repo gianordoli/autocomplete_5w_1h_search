@@ -66,23 +66,23 @@ body{
 
 				.container #results-container .word-container .predictions-container ul{
 					list-style-type: none;	
-					/*font-size: 1.5em;
-					line-height: 1.5em;*/
-					font-size: calc(100vh/30);
-					line-height: calc(100vh/20);
+					font-size: 2rem;
+					line-height: 2.5rem;
+					/*font-size: calc(100vh/30);
+					line-height: calc(100vh/20);*/
 					margin: 0;
 					padding: 0;	
 
 					position: relative;
-					top: 40%;
+					top: 47%;
 					width: 100%;
-					-webkit-transform: translateY(-40%);
-					-ms-transform: translateY(-40%);
-					transform: translateY(-40%);
+					-webkit-transform: translateY(-47%);
+					-ms-transform: translateY(-47%);
+					transform: translateY(-47%);
 				}
 
 					.container #results-container .word-container .predictions-container ul li:first-child{
-						font-size: 0.6em;
+						font-size: 1rem;
 					}
 
 .container#titles{
@@ -102,7 +102,8 @@ body{
 
 			#titles-container .word h1{
 				/*font-size: 16em;*/
-				font-size: calc(100vw/6);
+				/*font-size: calc(100vw/6);*/
+				font-size: 16rem;
 				color: rgba(255, 0, 50, 0.7);
 
 				position: relative;
@@ -113,12 +114,6 @@ body{
 				transform: translateY(-50%);
 			}
 
-/*------------- RESPONSIVE -------------*/
-@media screen and (max-width: 660px) {
-	#titles-container .word h1{
-		font-size: calc(100vw/4);
-	}
-}
 
 /*--------------- ARROWS ---------------*/
 
@@ -156,10 +151,10 @@ div.nav-container#nav-container-up{
 		div.nav#left,
 		div.nav#right{
 			position: relative;
-			top: 45%;
-			-webkit-transform: translateY(45%);
-			-ms-transform: translateY(45%);
-			transform: translateY(45%);
+			top: 47%;
+			-webkit-transform: translateY(-47%);
+			-ms-transform: translateY(-47%);
+			transform: translateY(-47%);
 		    -webkit-transform: rotate(-45deg); 
 			-ms-transform: rotate(-45deg);
 			transform: rotate(-45deg); 			
@@ -229,4 +224,28 @@ div.nav-container#nav-container-up{
     to {
     	transform: rotate(90deg);
     }
+}
+
+
+/*------------- RESPONSIVE -------------*/
+@media screen and (max-width: 768px) {
+
+	.container #results-container .word-container .predictions-container ul{
+		list-style-type: none;	
+		font-size: 1.1rem;
+		line-height: 1.5rem;
+	}
+
+	#titles-container .word h1{
+		font-size: 5rem;
+	}
+
+	.container #results-container .word-container .predictions-container ul li:first-child{
+		font-size: 0.8rem;
+	}	
+
+	div.nav{
+		width: 40px;
+		height: 40px;
+	}	
 }
