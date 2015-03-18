@@ -228,7 +228,14 @@ div.nav-container#nav-container-up{
 
 
 /*------------- RESPONSIVE -------------*/
-@media screen and (max-width: 768px) {
+
+@media screen and (max-width: 1024px) {
+	#titles-container .word h1{
+		font-size: 13rem;
+	}	
+}
+
+@media screen and (max-width: 700px) {
 
 	.container #results-container .word-container .predictions-container ul{
 		list-style-type: none;	
