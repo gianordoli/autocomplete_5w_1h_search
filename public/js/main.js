@@ -131,7 +131,8 @@ app.control = (function() {
 	}
 
 	var showHideArrows = function(){
-		console.log('Called showHideArrows.')
+		console.log('Called showHideArrows.');
+
 		// UP
 		if($('.container').scrollTop() <= 0){
 			$('#up').css('display', 'none');
@@ -146,14 +147,18 @@ app.control = (function() {
 			$('#down').css('display', 'inline-block');
 		}
 
-		// LEFT
+		// LEFT/RIGHT
 		var currScrollLeft = $('#'+currDiv).scrollLeft();
 		var maxScrollLeft = ($('#'+currDiv).children().length - 1) * width;
+		
+		// LEFT		
 		if(currScrollLeft <= 0){
 			$('#left').css('display', 'none');
+			$('#right').css('display', 'inline-block');
 		}
 		// RIGHT
 		else if(currScrollLeft >= maxScrollLeft){
+			$('#left').css('display', 'inline-block');
 			$('#right').css('display', 'none');
 		}
 		// CENTER
