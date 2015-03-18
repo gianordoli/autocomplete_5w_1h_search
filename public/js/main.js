@@ -83,7 +83,7 @@ app.init = function() {
 										   .appendTo(wordDiv);
 			
 				var predictionsUl = $('<ul></ul>')
-									 .append('<li>'+formatDateMMDDYYY(item.date)+'</li>')
+									 .append('<li>'+convertDateToString(item.date)+'</li>')
 									 .appendTo(predictionsByDayDiv);
 
 				_.each(item.results, function(value, key, list){
@@ -248,6 +248,26 @@ app.init = function() {
 		var dateString = newDate.getDate();
 		var yearString = newDate.getFullYear();
 		return monthString + '/' + dateString + '/' + yearString;
+	}
+
+	function convertDateToString(date){
+		var newDate = new Date(date);
+		newDate.setHours(0, 0, 0, 0);
+		var yesterday = new Date();
+		yesterday.setDate(yesterday.getDate() - 1);
+		yesterday.setHours(0, 0, 0, 0);
+		if(newDate >= yesterday){
+			return 'Yesterday'
+		}else{
+			var monthNames = ["January", "February", "March", "April", "May", "June",
+			  "July", "August", "September", "October", "November", "December"
+			];
+
+			var monthString = monthNames[newDate.getMonth()];
+			var dateString = newDate.getDate();
+			var yearString = newDate.getFullYear();
+			return monthString + ' ' + dateString + ', ' + yearString;		
+		}
 	}
 
 	var replaceSpaces = function(query){

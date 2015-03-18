@@ -82,7 +82,7 @@ body{
 				}
 
 					.container #results-container .word-container .predictions-container ul li:first-child{
-						font-size: 1rem;
+						font-size: 1.2rem;
 					}
 
 .container#titles{
@@ -248,7 +248,7 @@ div.nav-container#nav-container-up{
 	}
 
 	.container #results-container .word-container .predictions-container ul li:first-child{
-		font-size: 0.8rem;
+		font-size: 0.9rem;
 	}	
 
 	div.nav{
