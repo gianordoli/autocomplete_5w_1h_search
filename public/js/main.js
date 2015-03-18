@@ -1,8 +1,7 @@
-/* Your code starts here */
+/*** Global object that contains the app ***/
+var app = app || {};
 
-var app = {};
-
-app.init = function() {
+app.control = (function() {
 
 	// GLOBALS
 	var width, height, currDiv, isMoving;
@@ -277,16 +276,25 @@ app.init = function() {
 		return query;
 	}
 
-	callLoader();
-	initGlobalVars();
-	loadData(function(data){
-		processData(data, function(processedData){
-			printResults(processedData, function(finalData){
-				attachEvents(finalData);
-				showHideArrows();
-			});
-		});		
-	});	
-}
+	var init = function() {
+		callLoader();
+		initGlobalVars();
+		loadData(function(data){
+			processData(data, function(processedData){
+				printResults(processedData, function(finalData){
+					attachEvents(finalData);
+					showHideArrows();
+				});
+			});		
+		});	
+	}
 
-app.init();
+	return{
+		init: init
+	}
+})(window, document, jQuery, _);
+
+// call app.map.init() once the DOM is loaded
+window.addEventListener('DOMContentLoaded', function(){
+  app.control.init();  
+});
