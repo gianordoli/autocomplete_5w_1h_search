@@ -63,13 +63,14 @@ app.init = function() {
 	function printResults(data, callback){
 		console.log('Called printResults.')
 		// console.log(data);
-		$('#results-container').empty();
-		$('#titles-container').empty();
+		$('#results-container').scrollTop(0).empty();
+		$('#titles-container').scrollTop(0).empty();
 		$('#loader-container').remove();
 
 		_.each(data, function(item, index, list){
 			// console.log(item.length);
 			var wordDiv = $('<div id="'+index+'" class="word-container"></div>')
+						   .scrollLeft(0)
 						   .appendTo('#results-container');
 			
 			var word = $('<div class="word"><h1>'+item[0].word+'</h1></div>')
@@ -107,20 +108,20 @@ app.init = function() {
 			checkUpDown($(this).attr('id'));
 		});
 
-		// var debounce;
-		// $(window).resize(function() {
-		//     clearTimeout(debounce);
-		//     debounce = setTimeout(doneResizing, 500); 
-		// });
+		var debounce;
+		$(window).resize(function() {
+		    clearTimeout(debounce);
+		    debounce = setTimeout(doneResizing, 500); 
+		});
 		
-		// function doneResizing(){
-		// 	// console.log(data);
-		// 	initGlobalVars();
-		// 	printResults(data, function(){
-		// 		attachEvents(data);
-		// 		showHideArrows();
-		// 	});
-		// }
+		function doneResizing(){
+			// console.log(data);
+			initGlobalVars();
+			printResults(data, function(){
+				attachEvents(data);
+				showHideArrows();
+			});
+		}
 	}
 
 	var initGlobalVars = function(){
