@@ -88,7 +88,7 @@ app.init = function() {
 
 				_.each(item.results, function(value, key, list){
 					var query = 'https://google.com/#q='+replaceSpaces(value);					
-					var li = $('<li><a href="'+query+'">'+value+'</a></li>')
+					var li = $('<li><a href="'+query+'" target="_blank">'+value+'</a></li>')
 							  .appendTo(predictionsUl);
 				});
 			});
