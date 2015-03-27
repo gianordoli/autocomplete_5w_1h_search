@@ -1,8 +1,7 @@
 /*-------------------- MODULES --------------------*/
 var		express = require('express'),
 	 bodyParser = require('body-parser')
-	MongoClient = require('mongodb').MongoClient,
-			 jf = require('jsonfile');
+	MongoClient = require('mongodb').MongoClient;
 
 var app = express();
 
