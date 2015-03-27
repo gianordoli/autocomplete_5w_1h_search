@@ -18,6 +18,6 @@ This is the search interface for the data. The scraper is [here](https://github.
 
 ## To do
 
-* make fonts relative to screen
-* add buttons and key navigation
+* ~~make fonts relative to screen~~
+* ~~add buttons and key navigation~~
 * add script to visualize changes
