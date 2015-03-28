@@ -98,18 +98,13 @@ app.control = (function() {
 	// A function where we keep all user's interaction listener (buttons, etc)
 	function attachEvents(data) {
 		console.log('Called attachEvents.')
-		document.onkeydown = function(e){
-			if(!isMoving){
-				navigation.checkKey(e);
-			}
-		}
-		navigation.checkKey(isMoving);
+		document.onkeydown = checkKey;
 
 		$('#right, #left').off().on('click', function(){
-			navigation.moveLeftRight($(this).attr('id'));
+			moveLeftRight($(this).attr('id'));
 		});
 		$('#up, #down').off().on('click', function(){
-			navigation.checkUpDown($(this).attr('id'));
+			checkUpDown($(this).attr('id'));
 		});
 
 		var debounce;
@@ -123,7 +118,7 @@ app.control = (function() {
 			initGlobalVars();
 			printResults(data, function(){
 				attachEvents(data);
-				navigation.showHideArrows(currDiv, width, height);
+				showHideArrows();
 			});
 		}
 	}
@@ -135,7 +130,117 @@ app.control = (function() {
 		isMoving = false;
 	}
 
+	var showHideArrows = function(){
+		console.log('Called showHideArrows.');
 
+		// UP
+		if($('.container').scrollTop() <= 0){
+			$('#up').css('display', 'none');
+		}		
+		// DOWN
+		else if($('.container').scrollTop() >= $('#results-container').height() - height){
+			$('#down').css('display', 'none');
+		}
+		// MIDDLE
+		else{
+			$('#up').css('display', 'inline-block');
+			$('#down').css('display', 'inline-block');
+		}
+
+		// LEFT/RIGHT
+		var currScrollLeft = $('#'+currDiv).scrollLeft();
+		var maxScrollLeft = ($('#'+currDiv).children().length - 1) * width;
+		
+		// LEFT		
+		if(currScrollLeft <= 0){
+			$('#left').css('display', 'none');
+			$('#right').css('display', 'inline-block');
+		}
+		// RIGHT
+		else if(currScrollLeft >= maxScrollLeft){
+			$('#left').css('display', 'inline-block');
+			$('#right').css('display', 'none');
+		}
+		// CENTER
+		else{
+			$('#left').css('display', 'inline-block');
+			$('#right').css('display', 'inline-block');
+		}
+
+	}
+
+	function checkKey(e) {
+		
+		if(!isMoving){
+
+		    e = e || window.event;
+		    // up arrow
+		    if (e.keyCode == '38') {
+				checkUpDown('up');
+			}
+
+		    // down arrow
+		    else if (e.keyCode == '40') {
+				checkUpDown('down');
+		    }
+
+	        // left arrow
+		    else if (e.keyCode == '37') {
+      			checkLeftRight('left');
+		    }
+
+		    // right arrow
+		    else if (e.keyCode == '39') {
+		    	checkLeftRight('right');
+		    }
+		}		
+	}	
+
+	var checkUpDown = function(arrow){
+		if(arrow == 'up'){
+			if($('.container').scrollTop() > 0){
+				currDiv --;
+				moveUpDown();
+			}			
+		}else if(arrow == 'down'){
+			if($('.container').scrollTop() < $('#results-container').height() - height){
+				currDiv ++;
+				moveUpDown();
+			}
+		}
+	}
+
+	var moveUpDown = function(){
+		isMoving = true;
+		// console.log('move');
+        $('.container').animate({
+			scrollTop: height*currDiv
+		}, 500, function(){
+			isMoving = false;
+			showHideArrows();
+		});		
+	}
+
+	var checkLeftRight = function(arrow){	
+		var currScrollLeft = $('#'+currDiv).scrollLeft();
+		var maxScrollLeft = ($('#'+currDiv).children().length - 1) * width;
+		if((arrow == 'left' && currScrollLeft > 0) ||
+		   (arrow == 'right' && currScrollLeft < maxScrollLeft)){
+			moveLeftRight(arrow);
+		}
+	}
+
+	var moveLeftRight = function(arrow){
+		var direction = (arrow == 'left') ? (-1) : (1);
+		isMoving = true;
+		var currScrollLeft = $('#'+currDiv).scrollLeft();
+		$('#'+currDiv).animate({
+			scrollLeft: currScrollLeft + (width * direction)
+		}, 500, function(){
+			isMoving = false;
+			showHideArrows();
+		});	 		
+	}
 
 	/*-------------------- AUXILIAR FUNCTIONS --------------------*/
 
@@ -179,13 +284,11 @@ app.control = (function() {
 	var init = function() {
 		callLoader();
 		initGlobalVars();
-		navigation.setup(width, height);
-		
 		loadData(function(data){
 			processData(data, function(processedData){
 				printResults(processedData, function(finalData){
 					attachEvents(finalData);
-					navigation.showHideArrows(currDiv, width, height);
+					showHideArrows();
 				});
 			});		
 		});	
@@ -194,7 +297,7 @@ app.control = (function() {
 	return{
 		init: init
 	}
-})(window, document, jQuery, _, navigation);
+})(window, document, jQuery, _);
 
 // call app.map.init() once the DOM is loaded
 window.addEventListener('DOMContentLoaded', function(){
