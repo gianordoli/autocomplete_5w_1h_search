@@ -33,9 +33,10 @@ app.control = (function() {
 	var processData = function(data, callback){
 		console.log('Called process data.')
 		// remove HOW
-		var words = _.reject(data, function(value, index, list){
-			return value.word == 'how';
-		});
+		// var words = _.reject(data, function(value, index, list){
+		// 	return value.word == 'how';
+		// });
+		var words = data;
 
 		// group by word (WHY, HOW,...)
 		words = _.groupBy(words, function(value, index, list){
